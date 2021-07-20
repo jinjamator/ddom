@@ -1,0 +1,62 @@
+inherit:
+    - chassis:
+        vendor: cisco
+        pid: n9k
+children:
+  - slot: 
+      name: slot-1
+      number: 1
+      children:
+        - linecard:
+            vendor: cisco
+            pid: n9k-c9396px
+  - slot: 
+      name: slot-2
+      number: 2
+      children:
+        - linecard:
+            vendor: cisco
+            pid: n9k-m12pq
+
+  - slot: 
+      name: PSU-1
+      children:
+        - powersupply:
+            vendor: cisco
+            pid: n9k-pac-650w
+  - slot:
+      name: PSU-2
+      children:
+        - powersupply:
+            vendor: cisco
+            pid: n9k-pac-650w
+  - slot:
+      name: FAN-1
+      children:
+        - fan:
+            vendor: cisco
+            pid: n9k-c9300-fan2
+  - slot:
+      name: FAN-2
+      children:
+        - fan:
+            vendor: cisco
+            pid: n9k-c9300-fan2
+  - slot:
+      name: FAN-3
+      children:
+        - fan:
+            vendor: cisco
+            pid: n9k-c9300-fan2
+  - port:
+      name: mgmt0
+      pid: 1000-base-t
+  - port:
+      name: mgmt0
+      pid: sfp_plus
+  - port:
+      name: usb0
+      pid: usb
+  - port:
+      name: usb1
+      pid: usb

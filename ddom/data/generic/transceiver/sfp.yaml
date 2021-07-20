@@ -1,0 +1,7 @@
+allowed_parent_types:
+  - port
+allowed_child_types:
+  - cable
+capabilities: []
+supported_speeds: []
+socket_type: lc

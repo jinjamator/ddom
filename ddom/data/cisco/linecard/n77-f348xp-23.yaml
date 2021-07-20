@@ -1,0 +1,5 @@
+children:
+- ports:
+    end: 48
+    name: eth{self._parents[0].number}/{self.number}
+    start: 1

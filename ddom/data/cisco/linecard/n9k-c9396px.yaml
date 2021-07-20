@@ -1,0 +1,14 @@
+children:
+  - ports:
+      name: "eth{self._parents[0].number}/{self.number}"
+      start: 1
+      end: 48
+      pid: sfp_plus
+fixed: True
+allowed_parent_types:
+  - slot:
+      pid: n9k-c9396px
+      vendor: cisco
+allowed_child_types:
+  - port:
+      pid: sfp_plus

@@ -1,0 +1,12 @@
+allowed_child_types:
+  - cable:
+      pid: cat[5-9][0-9]*-rj45
+
+supported_speeds:
+  - 1G
+  - 100M
+  - 10M
+supported_duplex:
+  - full
+  - half
+socket_type: rj45

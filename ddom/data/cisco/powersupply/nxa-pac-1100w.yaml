@@ -1,0 +1,11 @@
+socket_type: C14
+airflow: intake
+allowed_parent_types:
+- slot:
+    pid: n5k-c56128p
+    vendor: cisco
+- slot:
+    pid: n5k-c5672up
+    vendor: cisco    
+current_type: AC
+output_power_max: 1100

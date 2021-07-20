@@ -1,0 +1,4 @@
+allowed_parent_types:
+  - slot:
+      pid: n9k-c9396px
+      vendor: cisco

@@ -1,0 +1,11 @@
+socket_type: C14
+airflow: intake
+allowed_parent_types:
+- slot:
+    pid: n2k-c2248tp-e-1ge
+    vendor: cisco
+- slot:
+    pid: n2k-c2348upq-10ge
+    vendor: cisco    
+current_type: AC
+output_power_max: 400

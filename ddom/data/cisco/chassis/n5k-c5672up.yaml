@@ -1,0 +1,44 @@
+inherit:
+    - chassis:
+        pid: n5k
+        vendor: cisco
+children:
+- slot:
+    name: SLOT-1
+    children:
+    - supervisor:
+        pid: n5k-c5672up
+        vendor: cisco
+    number: 1
+- slot:
+    name: SLOT-2
+    children:
+    - linecard:
+        pid: n5k-c5672up-m6q
+        vendor: cisco
+    number: 2
+- slot: 
+    name: PSU-1
+    allowed_children:
+        - powersupply:
+            vendor: cisco
+- slot: 
+    name: PSU-2
+    allowed_children:
+        - powersupply:
+            vendor: cisco            
+- slot:
+    name: FAN-1
+    allowed_children:
+        - fan:
+            vendor: cisco
+- slot:
+    name: FAN-2
+    allowed_children:
+        - fan:
+            vendor: cisco
+- slot:
+    name: FAN-3
+    allowed_children:
+        - fan:
+            vendor: cisco

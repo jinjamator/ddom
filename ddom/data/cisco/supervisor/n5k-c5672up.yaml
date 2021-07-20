@@ -1,0 +1,11 @@
+children:
+  - ports:
+      name: "eth{self._parents[0].number}/{self.number}"
+      start: 1
+      end: 48
+      pid: unified_sfp_plus
+fixed: True
+allowed_parent_types:
+  - slot:
+      pid: n5k-c5672up
+      vendor: cisco

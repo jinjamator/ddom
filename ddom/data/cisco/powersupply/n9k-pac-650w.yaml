@@ -1,0 +1,11 @@
+socket_type: C14
+input_voltage_min: 100
+input_voltage_max: 240
+btu_per_hour: 2429.444
+output_power_max: 650 # watt
+efficiency_rating: 80_plus_platinum
+form_factor: rsp1
+ambient_operating_temperature_min: 0 # degree celsius
+ambient_operating_temperature_max: 40 # degree celsius
+max_operating_altitude: 4000 #meters
+weight: 1.1 # kilogramm

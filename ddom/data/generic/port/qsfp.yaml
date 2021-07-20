@@ -1,0 +1,10 @@
+allowed_parent_types:
+  - linecard
+  - supervisor
+  - module
+  - nic
+allowed_child_types:
+  - transceiver:
+      pid: qsfp
+capabilities: []
+supported_speeds: []

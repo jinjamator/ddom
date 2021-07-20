@@ -1,0 +1,5 @@
+allowed_parent_types:
+  - slot:
+      pid: n5k-c5672up
+      vendor: cisco      
+airflow: intake

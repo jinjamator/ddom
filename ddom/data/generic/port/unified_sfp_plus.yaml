@@ -1,0 +1,5 @@
+inherit:
+  - port:
+      pid: sfp_plus
+  - port:
+      pid: fc_sfp

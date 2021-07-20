@@ -1,0 +1,16 @@
+children:
+  - port:
+      name: mgmt0
+      pid: fixed
+      children:
+        - transceiver:
+            pid: 1000-base-t
+  - port:
+      name: console
+      pid: fixed
+      children:
+        - transceiver:
+            pid: rs232_rj45
+  - port:
+      name: usb0
+      pid: usb

@@ -1,0 +1,5 @@
+inherit: 
+  - powersupply:
+      pid: nxa-pac-1100w
+      vendor: cisco
+airflow: exhaust

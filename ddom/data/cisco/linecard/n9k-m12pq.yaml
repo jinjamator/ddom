@@ -1,0 +1,12 @@
+children:
+  - ports:
+      name: "eth{self._parents[0].number}/{self.number}"
+      start: 1
+      end: 12
+      pid: qsfp
+fixed: True
+allowed_parent_types:
+  - slot:
+      pid: n9k-c9396px
+      vendor: cisco
+
