@@ -1,6 +1,6 @@
 allowed_child_types:
   - cable:
-      pid: cat[5-9][0-9]*-rj45
+      pid: rj45-cat[5-9][0-9]*-rj45
 
 supported_speeds:
   - 1G

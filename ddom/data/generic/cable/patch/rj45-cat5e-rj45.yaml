@@ -1,0 +1,9 @@
+children:
+  - jack:
+      side: a
+      pid: rj45
+  - jack:
+      side: b
+      pid: rj45
+color: <n/a>
+number: None

@@ -60,6 +60,17 @@ class TestObjectModel(unittest.TestCase):
         self.assertEqual(chassis.slot(1).supervisor().port(1).name, "eth1/1")
         self.assertEqual(chassis.slot(1).supervisor().port(48).name, "eth1/48")
 
+    def test_rj45_cable(self):
+        chassis = Chassis("n5k-c5672up", "cisco")
+        chassis2 = Chassis("n5k-c5672up", "cisco")
+        mgmt0 = chassis.find_children("port", {"name": "mgmt0"})[0].transceiver()
+        mgmt1 = chassis2.find_children("port", {"name": "mgmt0"})[0].transceiver()
+        cable = Cable("rj45-cat5e-rj45")
+
+        mgmt0.connect(cable)
+        mgmt1.connect(cable)
+        print(chassis)
+
 
 if __name__ == "__main__":
     unittest.main()

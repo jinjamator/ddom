@@ -210,11 +210,12 @@ class DeviceObject(object):
             retval += child.__str__(level)
         return retval
 
-    def inserted(self, parent, force=False):
+    def inserted(self, parent, force=False) -> bool:
         self._parents.append(parent)
         self._log.debug(f"{self.__repr__()} got inserted into {parent.__repr__()}")
+        return True
 
-    def check_child_on_attachment(self, child):
+    def check_child_on_attachment(self, child) -> bool:
         child_ok = False
 
         for allowed_child_type in self._device_blueprint.get(
@@ -248,7 +249,7 @@ class DeviceObject(object):
             child_ok = True
         return child_ok
 
-    def connect(self, child, force=False):
+    def connect(self, child, force=False) -> bool:
         child_ok = False
         if not str(type(child)).startswith("<class 'ddom."):
             raise InvalidChildDeviceTypeError(f"Invalid Baseclass {type(child)}")
@@ -284,7 +285,7 @@ class DeviceObject(object):
                     )
         return True
 
-    def find_children(self, type, match_attributes={}):
+    def find_children(self, type, match_attributes={}) -> list:
         retval = []
         for child in self._children:
             if child.type == type or type == "*":
@@ -406,10 +407,6 @@ class PowerSupply(DeviceObject):
         super().inserted(parent)
 
 
-class Cable(DeviceObject):
-    pass
-
-
 class Slot(DeviceObject):
 
     pass
@@ -433,6 +430,17 @@ class Fan(DeviceObject):
 
 class Ports(DeviceObjectList):
     _base_class = "Port"
+
+
+class Cable(DeviceObject):
+    def inserted(self, parent, force=False) -> bool:
+        self._parents.append(parent)
+        self._log.debug(f"{self.__repr__()} got inserted into {parent.__repr__()}")
+        return True
+
+
+class Jack(DeviceObject):
+    pass
 
 
 for cls in inspect.getmembers(
