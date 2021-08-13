@@ -37,7 +37,7 @@ class ChildNotFoundError(Exception):
 
 
 class DeviceObject(object):
-    def __init__(self, pid, vendor="generic", configuration={}):
+    def __init__(self, pid, vendor="generic", configuration={}, parent=None):
         self._log = logging.getLogger()
         self._type = (self.__class__.__name__).lower()
         self._parents = []
@@ -55,7 +55,8 @@ class DeviceObject(object):
         if configuration:
             self._log.debug(f"got configuration {configuration}")
             always_merger.merge(self._device_blueprint, configuration)
-
+        if parent:
+            parent.connect(self)
         self._build()
 
     @property
@@ -142,7 +143,7 @@ class DeviceObject(object):
 
             try:
                 child_instance = getattr(sys.modules[__name__], child_class)(
-                    child_pid, child_vendor, child_cfg
+                    child_pid, child_vendor, child_cfg, self
                 )
             except CannotFindDeviceBluePrintError:
                 self._log.debug(
@@ -150,10 +151,8 @@ class DeviceObject(object):
                 )
                 child_vendor = "generic"
                 child_instance = getattr(sys.modules[__name__], child_class)(
-                    child_pid, child_vendor, child_cfg
+                    child_pid, child_vendor, child_cfg, self
                 )
-
-            self.connect(child_instance)
 
     def __getattr__(self, name):
 
@@ -319,7 +318,7 @@ class DeviceObject(object):
 class DeviceObjectList(object):
     _base_class = None
 
-    def __init__(self, pid, vendor="generic", configuration={}):
+    def __init__(self, pid, vendor="generic", configuration={}, parent=None):
         self._log = logging.getLogger()
         self._lst = []
         self._type = self._base_class.lower()
@@ -371,9 +370,9 @@ class Port(DeviceObject):
 
 
 class Chassis(DeviceObject):
-    def __init__(self, pid, vendor="generic", configuration={}):
+    def __init__(self, pid, vendor="generic", configuration={}, parent=None):
         self.airflow = None
-        super().__init__(pid, vendor, configuration)
+        super().__init__(pid, vendor, configuration, parent)
 
 
 class LineCard(DeviceObject):
@@ -414,6 +413,7 @@ class Slot(DeviceObject):
 
 class Fan(DeviceObject):
     def inserted(self, parent):
+        self._log.debug(f"{self.__repr__()} got inserted into {parent.__repr__()}")
         if parent._parents[0].airflow:
 
             if parent._parents[0].airflow != self.airflow:
@@ -424,6 +424,7 @@ class Fan(DeviceObject):
             self._log.debug(
                 f"{self.__repr__()} slot: {parent.name} setting chassis airflow to {self.airflow}"
             )
+
             parent._parents[0].airflow = self.airflow
         super().inserted(parent)
 
