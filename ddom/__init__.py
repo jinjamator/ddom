@@ -38,12 +38,13 @@ class ChildNotFoundError(Exception):
 
 class DeviceObject(object):
     def __init__(self, pid, vendor="generic", configuration={}, parent=None):
+
         self._log = logging.getLogger()
         self._type = (self.__class__.__name__).lower()
         self._parents = []
         self._children = []
         self._capabilities = {}
-        self._vendor = str(vendor).lower()
+        self._vendor = str(vendor).lower().strip()
         self._pid = str(pid).lower()
         self._max_children = 1
         self._max_parents = 1
@@ -94,10 +95,14 @@ class DeviceObject(object):
             device_blueprint = yaml.safe_load(stream)
             if not device_blueprint:
                 device_blueprint = {}
+
         for inheritance in device_blueprint.get("inherit", {}):
             inherited_type = self._get_dict_singelton_key(inheritance)
             inherited_pid = inheritance[inherited_type].get("pid")
             inherited_vendor = inheritance[inherited_type].get("vendor", "generic")
+            self._log.debug(
+                f"{self.__repr__()} inheriting from {inherited_type} {inherited_pid} {inherited_vendor}"
+            )
             inherited_bp = self._load_blueprint(
                 inherited_type, inherited_pid, inherited_vendor
             )
@@ -331,7 +336,7 @@ class DeviceObjectList(object):
             child_class = self._base_class
             try:
                 child_instance = getattr(sys.modules[__name__], child_class)(
-                    pid, vendor, configuration
+                    pid, vendor, configuration, parent
                 )
             except CannotFindDeviceBluePrintError:
                 self._log.debug(
@@ -339,7 +344,7 @@ class DeviceObjectList(object):
                 )
                 vendor = "generic"
                 child_instance = getattr(sys.modules[__name__], child_class)(
-                    pid, vendor, configuration
+                    pid, vendor, configuration, parent
                 )
             child_instance._number = number
             self._lst.append(child_instance)
