@@ -1,1 +1,17 @@
-{}
+children:
+  - ports:
+      name: "eth{self._parents[0].number}/{self.number}"
+      start: 1
+      end: 48
+      pid: unified_sfp_plus
+  - ports:
+      name: "eth{self._parents[0].number}/{self.number}"
+      start: 49
+      end: 54
+      pid: qsfp
+
+fixed: True
+allowed_parent_types:
+  - slot:
+      pid: n2k-c2348upq-10ge
+      vendor: cisco

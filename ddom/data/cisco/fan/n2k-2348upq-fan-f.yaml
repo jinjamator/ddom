@@ -1,0 +1,6 @@
+allowed_parent_types:
+  - slot:
+      pid: n2k-c2348upq-10ge
+      vendor: cisco      
+airflow: intake
+

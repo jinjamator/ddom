@@ -1,0 +1,5 @@
+allowed_parent_types:
+  - slot:
+      pid: n56128-fan-f
+      vendor: cisco      
+airflow: intake
