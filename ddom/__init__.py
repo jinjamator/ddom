@@ -5,15 +5,44 @@ import os
 import re
 import inspect
 import sys
-from deepmerge import always_merger
 import copy
 from pprint import pprint
+from deepmerge import Merger
 
 DATA_DIR = (
     os.path.abspath(os.path.dirname(__file__) + os.path.sep + "data") + os.path.sep
 )
 
 cls_lookup_table = {}
+
+
+def merge_by_name(config, path, base, nxt):
+    retval = []
+    for nxt_item in nxt:
+        nxt_type = list(nxt_item.keys())[0]
+        for base_item in base:
+            base_type = list(base_item.keys())[0]
+            if base_item[base_type].get("name") == nxt_item[nxt_type].get("name"):
+                m = Merger(
+                    [
+                        (list, (exclusive_merge_list)),
+                        (dict, ["merge"]),
+                        (set, ["union"]),
+                    ],
+                    ["override"],
+                    ["override"],
+                )
+                retval.append(m.merge(base_item, nxt_item))
+                base.remove(base_item)
+                nxt.remove(nxt_item)
+    return base + nxt + retval
+
+
+always_merger = Merger(
+    [(list, (merge_by_name)), (dict, ["merge"]), (set, ["union"])],
+    ["override"],
+    ["override"],
+)
 
 
 class CannotFindDeviceBluePrintError(Exception):
