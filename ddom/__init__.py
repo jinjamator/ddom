@@ -78,6 +78,7 @@ class DeviceObject(object):
         self._device_blueprint = self._load_blueprint(
             self._type, self._pid, self._vendor
         )
+        self._attributes = []
         if configuration:
             self._log.debug(f"got configuration {configuration}")
             always_merger.merge(self._device_blueprint, configuration)
@@ -94,13 +95,20 @@ class DeviceObject(object):
 
     @property
     def name(self):
-        # print(self._name)
         if self._name:
             try:
                 return self._name.format(self=self)
             except:
                 return None
         return self.pid
+
+    @property
+    def attributes(self):
+        return ["pid", "vendor", "name", "number", "children"] + self._attributes
+
+    @property
+    def children(self):
+        return self._children
 
     def _load_blueprint(self, type, pid, vendor="generic"):
 
@@ -161,6 +169,7 @@ class DeviceObject(object):
             ]:
                 self._log.debug(f"{self} :  setting {attribute} to {value}")
                 setattr(self, attribute, value)
+                self._attributes.append(attribute)
             if attribute == "name":
                 self._name = value
         for child in self._device_blueprint.get("children", []):
@@ -238,6 +247,20 @@ class DeviceObject(object):
         for child in self._children:
             retval += child.__str__(level)
         return retval
+
+    def to_dict(self) -> dict:
+        retval = {}
+        for attribute in self.attributes:
+            if attribute not in ["children"]:
+                retval[attribute] = getattr(self, attribute)
+        if self._children:
+            retval["children"] = []
+        for child in self._children:
+            retval["children"].append({child.type: child.to_dict()})
+        return retval
+
+    def to_yaml(self) -> str:
+        return yaml.dump(self.to_dict())
 
     def inserted(self, parent, force=False) -> bool:
         self._parents.append(parent)
@@ -344,6 +367,10 @@ class DeviceObject(object):
             retval += child.find_children(type, match_attributes)
         return retval
 
+    # def yaml(self):
+
+    #     return yaml.dump(self._device_blueprint)
+
 
 class DeviceObjectList(object):
     _base_class = None
@@ -355,9 +382,18 @@ class DeviceObjectList(object):
         self._vendor = vendor
         self._pid = pid
         self._configuration = configuration
-        for number in range(
-            configuration.get("start", 0), configuration.get("end", -1) + 1
-        ):
+        start = configuration.get("start", 0)
+        end = configuration.get("end", -1) + 1
+        try:
+            del configuration["start"]
+        except:
+            pass
+        try:
+            del configuration["end"]
+        except:
+            pass
+
+        for number in range(start, end):
             child_class = self._base_class
             try:
                 child_instance = getattr(sys.modules[__name__], child_class)(
