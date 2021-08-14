@@ -4,7 +4,7 @@ Introduction
 
 Ddom (dynamic device object model) is a library which creates a object model of devices. Devices consist of child devices which can be plugged together. The idea is to model IT devices (switches, router, firewalls, server, cables) with all their modules, slots and ports and automatically verify compatibility between them.
 
-Eg.: A Switch has slots, in these slots you can plug linecards, fans and powersupplies. Fans and Powersupplies have an airflow direction. Linecards have ports, in a port a transceiver can be connected. A cable can be connected to a transceiver,... and so on.
+Eg.: A Switch has slots, in these slots you can plug linecards, fans and powersupplies. Fans and powersupplies have an airflow direction. Linecards have ports, in a port a transceiver can be connected. A cable can be connected to a transceiver,... and so on.
 
 Features
 -----------------
@@ -115,6 +115,7 @@ Selected Roadmap items:
     * add support for more devices
     * add support for cables
     * add class documentation
+    * add device path
 
 For documentation please refer to https://simplenetlink.readthedocs.io/en/latest/
 
