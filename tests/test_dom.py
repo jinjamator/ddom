@@ -2,6 +2,9 @@
 from ddom import *
 
 import unittest
+import logging
+
+# logging.basicConfig(level=logging.DEBUG)
 
 
 class TestObjectModel(unittest.TestCase):
@@ -12,6 +15,7 @@ class TestObjectModel(unittest.TestCase):
 
         slot1_ports = chassis.find_children("port", {"parent.number": "1"})
         self.assertEqual(len(slot1_ports), 48)
+
         for idx, port in enumerate(slot1_ports):
             self.assertEqual(port.name, f"eth1/{idx+1}")
             self.assertEqual(port.pid, f"unified_sfp_plus")
@@ -24,6 +28,7 @@ class TestObjectModel(unittest.TestCase):
 
     def test_airflow(self):
         chassis = Chassis("n5k-c5672up", "cisco")
+
         psu_1 = PowerSupply("nxa-pac-1100w", "cisco")
         psu_2 = PowerSupply("nxa-pac-1100w-b", "cisco")
         fan_1 = Fan("n6k-c6001-fan-b", "cisco")
@@ -69,7 +74,7 @@ class TestObjectModel(unittest.TestCase):
 
         mgmt0.connect(cable)
         mgmt1.connect(cable)
-        print(chassis)
+        # print(chassis)
 
 
 if __name__ == "__main__":
