@@ -24,11 +24,7 @@ def merge_by_name(config, path, base, nxt):
             base_type = list(base_item.keys())[0]
             if base_item[base_type].get("name") == nxt_item[nxt_type].get("name"):
                 m = Merger(
-                    [
-                        (list, (exclusive_merge_list)),
-                        (dict, ["merge"]),
-                        (set, ["union"]),
-                    ],
+                    [(list, (merge_by_name)), (dict, ["merge"]), (set, ["union"])],
                     ["override"],
                     ["override"],
                 )
