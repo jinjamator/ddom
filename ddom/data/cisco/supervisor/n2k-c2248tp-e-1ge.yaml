@@ -1,1 +1,20 @@
-{}
+children:
+  - ports:
+      name: "eth{self._parents[0].number}/{self.number}"
+      start: 1
+      end: 48
+      pid: fixed
+      children:
+        - transceiver:
+            pid: 1000-base-t
+  - ports:
+      name: "2/{self.number}"
+      start: 1
+      end: 4
+      pid: sfp-plus
+
+fixed: True
+allowed_parent_types:
+  - slot:
+      pid: n2k-c2248tp-e-1ge
+      vendor: cisco

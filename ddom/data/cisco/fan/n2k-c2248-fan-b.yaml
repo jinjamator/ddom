@@ -1,0 +1,5 @@
+inherit: 
+  - fan:
+      pid: n2k-c2248-fan-f
+      vendor: cisco
+airflow: exhaust

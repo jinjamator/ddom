@@ -1,0 +1,45 @@
+inherit:
+- chassis:
+    pid: n2k
+    vendor: cisco
+
+children:
+- slot:
+    children:
+    - supervisor:
+        pid: n2k-c2248tp-e-1ge
+        vendor: cisco
+    name: SLOT-1
+    number: 1
+- slot:
+    allowed_children:
+    - fan:
+        pid: n2k-c2248-fan-b
+        vendor: cisco
+    - fan:
+        pid: n2k-c2248-fan-f
+        vendor: cisco
+    name: FAN-1
+- slot:
+    allowed_children:
+    - powersupply:
+        pid: n2200-pdc-350w-b
+        vendor: cisco
+    - powersupply:
+        pid: n2200-pac-400w
+        vendor: cisco
+    - powersupply:
+        pid:  n2200-pac-400w-b
+        vendor: cisco
+    name: PSU-1
+- slot:
+    allowed_children:
+    - powersupply:
+        pid: n2200-pdc-350w-b
+        vendor: cisco
+    - powersupply:
+        pid: n2200-pac-400w
+        vendor: cisco
+    - powersupply:
+        pid:  n2200-pac-400w-b
+        vendor: cisco

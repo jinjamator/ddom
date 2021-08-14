@@ -1,0 +1,5 @@
+allowed_parent_types:
+  - slot:
+      pid: n2k-c2248tp-e-1ge
+      vendor: cisco      
+airflow: intake
