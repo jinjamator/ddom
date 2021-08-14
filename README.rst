@@ -4,7 +4,7 @@ Introduction
 
 Ddom (dynamic device object model) is a library which creates a object model of devices. Devices consist of child devices which can be plugged together. The idea is to model IT devices (switches, router, firewalls, server, cables) with all their modules, slots and ports and automatically verify compatibility between them.
 
-Eg.: A Switch has slots, in these slots you can plug linecards, fans and powersupplies. Fans and powersupplies have an airflow direction. Linecards have ports, in a port a transceiver can be connected. A cable can be connected to a transceiver,... and so on.
+Eg.: A Switch has slots, in these slots you can plug linecards, fans or powersupplies. Fans and powersupplies have an airflow direction. Linecards have ports. A transceiver can be inserted to a port. A cable can be connected to a transceiver,... and so on.
 
 Features
 -----------------
@@ -31,7 +31,7 @@ Examples
 ---------
 
 
-Create a Nexus 5572UP Chassis and print all port names of slot 1 using find_children and parent property
+Create a Nexus 5672UP Chassis and print all port names of slot 1 using find_children and parent property
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
@@ -45,7 +45,7 @@ Create a Nexus 5572UP Chassis and print all port names of slot 1 using find_chil
         print(port.name)
     
 
-Create a Nexus 5572UP Chassis and print all port names of slot 1 using find_children
+Create a Nexus 5672UP Chassis and print all port names of slot 1 using find_children
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
@@ -59,7 +59,7 @@ Create a Nexus 5572UP Chassis and print all port names of slot 1 using find_chil
         print(port.name)
 
 
-Create a Nexus 5572UP Chassis and verify airflow
+Create a Nexus 5672UP Chassis and verify airflow
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
@@ -77,7 +77,7 @@ Create a Nexus 5572UP Chassis and verify airflow
     chassis.slot("PSU-2").connect(psu_2) # this will raise an ddom.InvalidAirFlowError exception 
 
 
-Create a Nexus 5572UP Chassis and print the port name of a specific port
+Create a Nexus 5672UP Chassis and print the port name of a specific port
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
