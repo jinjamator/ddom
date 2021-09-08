@@ -19,18 +19,23 @@ cls_lookup_table = {}
 def merge_by_name(config, path, base, nxt):
     retval = []
     for nxt_item in nxt:
-        nxt_type = list(nxt_item.keys())[0]
-        for base_item in base:
-            base_type = list(base_item.keys())[0]
-            if base_item[base_type].get("name") == nxt_item[nxt_type].get("name"):
-                m = Merger(
-                    [(list, (merge_by_name)), (dict, ["merge"]), (set, ["union"])],
-                    ["override"],
-                    ["override"],
-                )
-                retval.append(m.merge(base_item, nxt_item))
-                base.remove(base_item)
-                nxt.remove(nxt_item)
+        if isinstance(nxt_item, dict):
+            nxt_type = list(nxt_item.keys())[0]
+            for base_item in base:
+                base_type = list(base_item.keys())[0]
+                if base_item[base_type].get("name") == nxt_item[nxt_type].get("name"):
+                    m = Merger(
+                        [(list, (merge_by_name)), (dict, ["merge"]), (set, ["union"])],
+                        ["override"],
+                        ["override"],
+                    )
+                    retval.append(m.merge(base_item, nxt_item))
+                    base.remove(base_item)
+                    nxt.remove(nxt_item)
+        # else:
+        #     if nxt_item not in retval:
+        #         retval.append(nxt_item)
+        #         nxt.remove(nxt_item)
     return base + nxt + retval
 
 
@@ -166,12 +171,16 @@ class DeviceObject(object):
                 "pid",
                 "type",
                 "name",
+                "number",
             ]:
                 self._log.debug(f"{self} :  setting {attribute} to {value}")
                 setattr(self, attribute, value)
                 self._attributes.append(attribute)
             if attribute == "name":
                 self._name = value
+            if attribute == "number":
+                self._name = value
+
         for child in self._device_blueprint.get("children", []):
             key = self._get_dict_singelton_key(child)
 
@@ -367,6 +376,37 @@ class DeviceObject(object):
             retval += child.find_children(type, match_attributes)
         return retval
 
+    def from_yaml(path):
+        with open(path, "r") as fh:
+            cfg = yaml.safe_load(fh.read())
+        if cfg.get("inherit"):
+            # print(cfg.get('inherit'))
+            for i_type, i_item in cfg.get("inherit")[0].items():
+                child_class = cls_lookup_table[i_type]
+                child_vendor = i_item.get("vendor", "generic")
+                child_pid = i_item.get("pid", "generic")
+                child_cfg = cfg
+                try:
+                    # print(child_pid, child_vendor, child_cfg)
+                    return getattr(sys.modules[__name__], child_class)(
+                        child_pid, child_vendor, child_cfg
+                    )
+
+                except CannotFindDeviceBluePrintError as e:
+
+                    child_vendor = "generic"
+                    return getattr(sys.modules[__name__], child_class)(
+                        child_pid, child_vendor, child_cfg
+                    )
+
+        else:
+            raise NotImplementedError(
+                "from_yaml must have inherit defined for the moment"
+            )
+
+        print("--------------------------------------------- da")
+        print(__class__)
+
     # def yaml(self):
 
     #     return yaml.dump(self._device_blueprint)
@@ -397,7 +437,7 @@ class DeviceObjectList(object):
             child_class = self._base_class
             try:
                 child_instance = getattr(sys.modules[__name__], child_class)(
-                    pid, vendor, configuration, parent
+                    pid, vendor, copy.deepcopy(configuration), parent
                 )
             except CannotFindDeviceBluePrintError:
                 self._log.debug(
@@ -405,7 +445,7 @@ class DeviceObjectList(object):
                 )
                 vendor = "generic"
                 child_instance = getattr(sys.modules[__name__], child_class)(
-                    pid, vendor, configuration, parent
+                    pid, vendor, copy.deepcopy(configuration), parent
                 )
             child_instance._number = number
             self._lst.append(child_instance)
@@ -453,6 +493,10 @@ class SuperVisor(LineCard):
 
 
 class Module(LineCard):
+    pass
+
+
+class Fab(DeviceObject):
     pass
 
 
