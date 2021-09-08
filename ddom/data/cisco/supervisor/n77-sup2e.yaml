@@ -1,1 +1,14 @@
-{}
+children:
+  - ports:
+      name: "usb{self.number-1}"
+      start: 1
+      end: 2
+      pid: usb
+  - port:
+      name: "mgmt0"  
+      pid: 1000-base-t
+      
+allowed_parent_types:
+  - slot:
+      pid: n77-c7706
+      vendor: cisco

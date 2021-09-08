@@ -1,3 +1,4 @@
+connector: sfp
 allowed_parent_types:
   - linecard
   - supervisor

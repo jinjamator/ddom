@@ -1,4 +1,4 @@
-socket_type: C14
+socket_type: screw terminal
 airflow: exhaust
 allowed_parent_types:
 - slot:

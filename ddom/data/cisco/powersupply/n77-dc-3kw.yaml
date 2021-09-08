@@ -1,0 +1,8 @@
+socket_type: screw terminal
+airflow: intake
+allowed_parent_types:
+- slot:
+    pid: n77-c7706
+    vendor: cisco
+current_type: DC
+output_power_max: 3000

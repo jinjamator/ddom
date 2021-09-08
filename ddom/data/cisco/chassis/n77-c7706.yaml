@@ -1,0 +1,35 @@
+children:
+- slot:
+    name: SLOT-1
+- slot:
+    name: SLOT-2
+- slot:
+    name: SLOT-3
+- slot:
+    name: SLOT-4
+- slot:
+    name: FAB-7
+- slot:
+    name: FAB-8
+- slot:
+    name: FAB-9
+- slot:
+    name: FAB-10
+- slot:
+    name: FAB-11
+- slot:
+    name: FAB-12
+- slot:
+    name: PSU-33
+- slot:
+    name: PSU-34
+- slot:
+    name: PSU-35
+- slot:
+    name: PSU-36
+- slot:
+    name: FAN-37
+- slot:
+    name: FAN-38
+- slot:
+    name: FAN-39

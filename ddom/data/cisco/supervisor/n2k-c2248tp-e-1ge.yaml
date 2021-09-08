@@ -1,14 +1,12 @@
 children:
   - ports:
-      name: "eth{self._parents[0].number}/{self.number}"
+      name: "eth{self._parents[0].number}/1/{self.number}"
       start: 1
       end: 48
-      pid: fixed
-      children:
-        - transceiver:
-            pid: 1000-base-t
+      pid: 1000-base-t
+
   - ports:
-      name: "2/{self.number}"
+      name: "eth{self._parents[0].number}/2/{self.number}"
       start: 1
       end: 4
       pid: sfp-plus

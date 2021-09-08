@@ -1,5 +1,10 @@
 children:
-- ports:
-    end: 48
-    name: eth{self._parents[0].number}/{self.number}
-    start: 1
+    - ports:
+        end: 48
+        name: eth{self._parents[0].number}/{self.number}
+        start: 1
+        pid: sfp_plus
+allowed_parent_types:
+- slot:
+    pid: n77-c7706
+    vendor: cisco

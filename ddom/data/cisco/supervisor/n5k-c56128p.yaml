@@ -1,1 +1,26 @@
-{}
+children:
+  - ports:
+      name: "eth{self._parents[0].number}/{self.number}"
+      start: 1
+      end: 48
+      pid: sfp_plus
+  - ports:
+      name: "eth{self._parents[0].number}/{self.number}"
+      start: 49
+      end: 52
+      pid: qsfp
+      children:
+        - ports:
+            name: "eth{self._parents[0]._parents[0].number}/{self._parents[0].number}/{self.number}"
+            start: 1
+            end: 4
+            pid: qsfp-breakout
+  - port:
+      name: "mgmt0"  
+      pid: 1000-base-t
+
+fixed: True
+allowed_parent_types:
+  - slot:
+      pid: n5k-c56128p
+      vendor: cisco

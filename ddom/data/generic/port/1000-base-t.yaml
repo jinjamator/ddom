@@ -1,0 +1,6 @@
+connector: rj45
+fixed: True
+children:
+  - transceiver:
+      fixed: True
+      pid: 1000-base-t

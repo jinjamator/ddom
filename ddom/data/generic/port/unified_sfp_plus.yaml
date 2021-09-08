@@ -1,3 +1,4 @@
+connector: sfp
 inherit:
   - port:
       pid: sfp_plus

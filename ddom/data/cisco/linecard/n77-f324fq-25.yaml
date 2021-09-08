@@ -1,9 +1,10 @@
 children:
-- ports:
-    end: 24
-    name: eth{self._parents[0].number}/{self.number}
-    start: 1
+    - ports:
+        end: 24
+        name: eth{self._parents[0].number}/{self.number}
+        start: 1
+        pid: qsfp
 allowed_parent_types:
-  - slot:
-      pid: n5k-c56128p
-      vendor: cisco
+- slot:
+    pid: n77-c7706
+    vendor: cisco
