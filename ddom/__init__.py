@@ -179,7 +179,7 @@ class DeviceObject(object):
             if attribute == "name":
                 self._name = value
             if attribute == "number":
-                self._name = value
+                self._number = value
 
         for child in self._device_blueprint.get("children", []):
             key = self._get_dict_singelton_key(child)
