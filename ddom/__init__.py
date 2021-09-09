@@ -8,6 +8,7 @@ import sys
 import copy
 from pprint import pprint
 from deepmerge import Merger
+import copy
 
 DATA_DIR = (
     os.path.abspath(os.path.dirname(__file__) + os.path.sep + "data") + os.path.sep
@@ -16,31 +17,52 @@ DATA_DIR = (
 cls_lookup_table = {}
 
 
-def merge_by_name(config, path, base, nxt):
-    retval = []
-    for nxt_item in nxt:
+def special_list_merge(config, path, base, nxt):
+    ret_next = []
+    # print(f"pre: {nxt}")
+    for n, nxt_item in enumerate(nxt):
         if isinstance(nxt_item, dict):
             nxt_type = list(nxt_item.keys())[0]
-            for base_item in base:
+            if nxt_item[nxt_type].get("name"):
+                nxt_id = nxt_item[nxt_type].get("name")
+            elif nxt_item[nxt_type].get("number"):
+                nxt_id = int(nxt_item[nxt_type].get("number"))
+            elif nxt_item[nxt_type].get("pid"):
+                nxt_id = f'{nxt_item[nxt_type].get("pid")}_{nxt_item[nxt_type].get("vendor","generic")}'
+
+            for b, base_item in enumerate(base):
+                # found=False
                 base_type = list(base_item.keys())[0]
-                if base_item[base_type].get("name") == nxt_item[nxt_type].get("name"):
+                if base_item[base_type].get("name"):
+                    base_id = base_item[base_type].get("name")
+                elif base_item[base_type].get("number"):
+                    base_id = int(base_item[base_type].get("number"))
+                elif base_item[base_type].get("pid"):
+                    base_id = f'{base_item[base_type].get("pid")}_{base_item[base_type].get("vendor","generic")}'
+                else:
+                    continue
+                if base_id == nxt_id:
                     m = Merger(
-                        [(list, (merge_by_name)), (dict, ["merge"]), (set, ["union"])],
+                        [
+                            (list, (special_list_merge)),
+                            (dict, ["merge"]),
+                            (set, ["union"]),
+                        ],
                         ["override"],
                         ["override"],
                     )
-                    retval.append(m.merge(base_item, nxt_item))
-                    base.remove(base_item)
-                    nxt.remove(nxt_item)
-        # else:
-        #     if nxt_item not in retval:
-        #         retval.append(nxt_item)
-        #         nxt.remove(nxt_item)
-    return base + nxt + retval
+                    m.merge(base_item, nxt_item)
+                    # found=True
+                    break
+
+        else:
+            ret_next.append(nxt_item)
+    # print(f"pre: {nxt}")
+    return base + ret_next
 
 
 always_merger = Merger(
-    [(list, (merge_by_name)), (dict, ["merge"]), (set, ["union"])],
+    [(list, (special_list_merge)), (dict, ["merge"]), (set, ["union"])],
     ["override"],
     ["override"],
 )
@@ -144,7 +166,9 @@ class DeviceObject(object):
             inherited_bp = self._load_blueprint(
                 inherited_type, inherited_pid, inherited_vendor
             )
-            device_blueprint = always_merger.merge(inherited_bp, device_blueprint)
+
+            always_merger.merge(inherited_bp, device_blueprint)
+            device_blueprint = inherited_bp
 
         if "inherit" in device_blueprint:
             del device_blueprint["inherit"]
@@ -386,6 +410,7 @@ class DeviceObject(object):
                 child_vendor = i_item.get("vendor", "generic")
                 child_pid = i_item.get("pid", "generic")
                 child_cfg = cfg
+                del cfg["inherit"]
                 try:
                     # print(child_pid, child_vendor, child_cfg)
                     return getattr(sys.modules[__name__], child_class)(
@@ -403,9 +428,6 @@ class DeviceObject(object):
             raise NotImplementedError(
                 "from_yaml must have inherit defined for the moment"
             )
-
-        print("--------------------------------------------- da")
-        print(__class__)
 
     # def yaml(self):
 

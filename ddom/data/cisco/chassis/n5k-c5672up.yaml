@@ -1,7 +1,3 @@
-inherit:
-    - chassis:
-        pid: n5k
-        vendor: cisco
 children:
 - slot:
     name: SLOT-1
