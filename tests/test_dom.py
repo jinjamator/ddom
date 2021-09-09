@@ -95,14 +95,14 @@ class TestObjectModel(unittest.TestCase):
         chassis.slot("FAN-1").connect(fan_1)
         chassis.slot("FAN-2").connect(fan_2)
         chassis.slot("FAN-3").connect(fan_3)
-        # print(chassis)
+
         yaml_string = chassis.to_yaml()
-        # print(yaml_string)
+
         with open("create.yaml", "w") as fh:
             fh.write(yaml_string)
 
         chassis_restore = Chassis("n5k-c5672up", "cisco", yaml.safe_load(yaml_string))
-        # print(chassis_restore)
+
         yaml_restore_string = chassis_restore.to_yaml()
 
         with open("restore.yaml", "w") as fh:
