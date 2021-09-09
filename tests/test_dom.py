@@ -4,6 +4,7 @@ from ddom import *
 import unittest
 import logging
 
+
 # logging.basicConfig(level=logging.DEBUG)
 
 
@@ -14,11 +15,15 @@ class TestObjectModel(unittest.TestCase):
         self.assertEqual(chassis.type, "chassis")
 
         slot1_ports = chassis.find_children("port", {"parent.number": "1"})
-        self.assertEqual(len(slot1_ports), 48)
+        self.assertEqual(len(slot1_ports), 49)
 
         for idx, port in enumerate(slot1_ports):
-            self.assertEqual(port.name, f"eth1/{idx+1}")
-            self.assertEqual(port.pid, f"unified_sfp_plus")
+            if port.name.startswith("eth"):
+                self.assertEqual(port.name, f"eth1/{idx+1}")
+                self.assertEqual(port.pid, f"unified_sfp_plus")
+            if port.name.startswith("mgmt"):
+                self.assertEqual(port.name, f"mgmt0")
+                self.assertEqual(port.pid, f"1000-base-t")
 
         slot2_ports = chassis.find_children("port", {"parent.number": "2"})
         self.assertEqual(len(slot2_ports), 6)
@@ -75,6 +80,38 @@ class TestObjectModel(unittest.TestCase):
         mgmt0.connect(cable)
         mgmt1.connect(cable)
         # print(chassis)
+
+    def test_to_yaml(self):
+        chassis = Chassis("n5k-c5672up", "cisco")
+
+        psu_1 = PowerSupply("nxa-pac-1100w", "cisco")
+        psu_2 = PowerSupply("nxa-pac-1100w", "cisco")
+        fan_1 = Fan("n6k-c6001-fan-f", "cisco")
+        fan_2 = Fan("n6k-c6001-fan-f", "cisco")
+        fan_3 = Fan("n6k-c6001-fan-f", "cisco")
+
+        chassis.slot("PSU-1").connect(psu_1)
+        chassis.slot("PSU-2").connect(psu_2)
+        chassis.slot("FAN-1").connect(fan_1)
+        chassis.slot("FAN-2").connect(fan_2)
+        chassis.slot("FAN-3").connect(fan_3)
+
+        yaml_string = chassis.to_yaml()
+
+        # print(yaml_string)
+        with open("create.yaml", "w") as fh:
+            fh.write(yaml_string)
+
+        chassis_restore = Chassis("n5k-c5672up", "cisco", yaml.load(yaml_string))
+
+        yaml_restore_string = chassis_restore.to_yaml()
+
+        with open("restore.yaml", "w") as fh:
+            fh.write(yaml_restore_string)
+
+        # print(yaml_restore_string)
+
+        self.assertEqual(yaml_string, yaml_restore_string)
 
 
 if __name__ == "__main__":
