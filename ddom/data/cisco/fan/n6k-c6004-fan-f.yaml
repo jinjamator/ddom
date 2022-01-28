@@ -1,0 +1,5 @@
+allowed_parent_types:
+  - slot:
+      pid: n6k-c6004
+      vendor: cisco      
+airflow: intake

@@ -1,0 +1,5 @@
+inherit: 
+  - fan:
+      pid: n6k-c6004-fan-f
+      vendor: cisco
+airflow: exhaust

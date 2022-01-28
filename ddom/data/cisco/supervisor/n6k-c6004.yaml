@@ -1,0 +1,10 @@
+children:
+  - port:
+      name: "mgmt0"  
+      pid: 1000-base-t
+
+fixed: True
+allowed_parent_types:
+  - slot:
+      pid: n6k-c6004
+      vendor: cisco

@@ -1,0 +1,15 @@
+children:
+  - ports:
+      name: "eth{self._parents[0].number}/{self.number}"
+      start: 1
+      end: 48
+      pid: sfp_plus
+  - port:
+      name: "mgmt0"  
+      pid: 1000-base-t
+
+fixed: True
+allowed_parent_types:
+  - slot:
+      pid: n6k-c6001-64p
+      vendor: cisco

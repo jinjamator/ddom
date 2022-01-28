@@ -1,0 +1,135 @@
+children:
+- slot:
+    children:
+    - supervisor:
+        pid: n6k-c6004
+        vendor: cisco
+    name: SLOT-0
+    number: '0'
+- slot:
+    allowed_children:
+    - linecard:
+        pid: n6004-m12q
+        vendor: cisco
+    name: SLOT-1
+    number: '1'
+- slot:
+    allowed_children:
+    - linecard:
+        pid: n6004-m12q
+        vendor: cisco
+    name: SLOT-2
+    number: '2'
+- slot:
+    allowed_children:
+    - linecard:
+        pid: n6004-m12q
+        vendor: cisco
+    name: SLOT-3
+    number: '3'
+- slot:
+    allowed_children:
+    - linecard:
+        pid: n6004-m12q
+        vendor: cisco
+    name: SLOT-4
+    number: '4'
+- slot:
+    allowed_children:
+    - linecard:
+        pid: n6004-m12q
+        vendor: cisco
+    name: SLOT-5
+    number: '5'
+- slot:
+    allowed_children:
+    - linecard:
+        pid: n6004-m12q
+        vendor: cisco
+    name: SLOT-6
+    number: '6'
+- slot:
+    allowed_children:
+    - linecard:
+        pid: n6004-m12q
+        vendor: cisco
+    name: SLOT-7
+    number: '7'
+- slot:
+    allowed_children:
+    - linecard:
+        pid: n6004-m12q
+        vendor: cisco
+    name: SLOT-8
+    number: '8'
+
+- slot:
+    allowed_children:
+    - fan:
+        pid: n6k-c6004-fan-b
+        vendor: cisco
+    name: FAN-1
+    number: '1'
+- slot:
+    allowed_children:
+    - fan:
+        pid: n6k-c6004-fan-b
+        vendor: cisco
+    name: FAN-2
+    number: '2'
+- slot:
+    allowed_children:
+    - fan:
+        pid: n6k-c6004-fan-b
+        vendor: cisco
+    name: FAN-3
+    number: '3'
+- slot:
+    allowed_children:
+    - fan:
+        pid: n6k-c6004-fan-b
+        vendor: cisco
+    name: FAN-4
+    number: '4'
+- slot:
+    allowed_children:
+    - powersupply:
+        pid: nxa-pac-1100w-b
+        vendor: cisco
+    name: PSU-1
+    number: '1'
+- slot:
+    allowed_children:
+    - powersupply:
+        pid: nxa-pac-1100w-b
+        vendor: cisco
+    name: PSU-2
+    number: '2'
+- slot:
+    allowed_children:
+    - powersupply:
+        pid: nxa-pac-1100w-b
+        vendor: cisco
+    name: PSU-3
+    number: '3'
+- slot:
+    allowed_children:
+    - powersupply:
+        pid: nxa-pac-1100w-b
+        vendor: cisco
+    name: PSU-4
+    number: '4'
+- slot:
+    allowed_children:
+    - powersupply:
+        pid: nxa-pac-1100w-b
+        vendor: cisco
+    name: PSU-5
+    number: '5'
+- slot:
+    allowed_children:
+    - powersupply:
+        pid: nxa-pac-1100w-b
+        vendor: cisco
+    name: PSU-6
+    number: '6'
